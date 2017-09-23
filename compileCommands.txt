@@ -1,0 +1,25 @@
+
+gcc -I/Users/lucicooke/Documents/csstuff/Arnold-4.2.14.0-darwin/include -L/Users/lucicooke/Documents/csstuff/Arnold-4.2.14.0-darwin/bin -lai -dynamiclib fileRepeat.cpp -o fileRepeat.dylib -lstdc++
+
+g++ -I/Users/lucicooke/Documents/csstuff/Arnold-4.2.14.0-darwin/include -L/Users/lucicooke/Documents/csstuff/Arnold-4.2.14.0-darwin/bin -lai -dynamiclib fileRepeat.cpp -o fileRepeat.dylib
+
+arnold path: /Users/lucicooke/Documents/csstuff/Arnold-4.2.14.0-darwin
+
+g++ -I/Users/lucicooke/Documents/csstuff/Arnold-4.2.14.0-darwin/include -L/Users/lucicooke/Documents/csstuff/Arnold-4.2.14.0-darwin/bin -lai -dynamiclib fileRepeat.cpp -o fileRepeat.dylib
+
+g++ -I/Users/lucicooke/Documents/csstuff/Arnold-4.2.14.0-darwin/include -L/Users/lucicooke/Documents/csstuff/Arnold-4.2.14.0-darwin/bin -lai -dynamiclib fileRepeat.cpp -o fileRepeat
+
+
+
+
+Maya Testing commands:
+
+shadingNode -asShader lambert;
+sets -renderable true -noSurfaceShader true -empty -name lambert2SG;
+connectAttr -f lambert2.outColor lambert2SG.surfaceShader;
+shadingNode -asTexture fileRepeat;
+setAttr "fileRepeat1.uvRepeatX" 10;
+setAttr "fileRepeat1.uvRepeatY" 10;
+connectAttr -f fileRepeat1.outColor lambert2.color;
+polyPlane -w 5 -h 5 -sx 10 -sy 10 -ax 0 1 0 -cuv 2 -ch 1;
+sets -e -forceElement lambert2SG;
