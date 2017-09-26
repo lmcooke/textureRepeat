@@ -2,11 +2,13 @@
 
 A shading node for Arnold that allows the user to repeat non-tileable textures without obviously visible repetition. This is inspired by http://www.iquilezles.org/www/articles/texturerepetition/texturerepetition.htm
 
+WIP project.
+
 ---
 
 ### To Compile
 
-The Arnold SDK (version 4.2.14.0) is necessary in order to compile this project. It is available at https://www.solidangle.com/arnold/download/. A C++ compiler is also necessary to compile this project. In order to use this node in Maya, you also must have the MtoA plugin installed.
+The Arnold SDK (version 4.2.14.0) is necessary in order to compile this project. It is available at https://www.solidangle.com/arnold/download/. A C++ compiler is also necessary to compile this project. For Windows, Visual Studio 2008 or 2010 is necessary. In order to use this node in Maya, you also must have the MtoA plugin installed.
 
 In order to compile this project, use the following commands. This assumes the extracted Arnold SDK exists in <arnold_SDKpath>
 
@@ -24,17 +26,23 @@ g++ -o fileRepeat.os -c -fPIC -D_LINUX -I<arnold_SDKpath>/include fileRepeat.cpp
 
 g++ -o fileRepeat.so -shared fileRepeat.os -L<arnold_SDKpath>/bin -lai
 
-##### Windows (not tested, apparently this requires VS 2008 or 2010)
+##### Windows (not tested)
 
 cl /LD /I <arnold_SDKpath>\include /EHsc fileRepeat.cpp /link /LIBPATH:<arnold_SDKpath>\lib ai.lib
 
 ---
 
-### To Use in Maya
+### To Access in Maya
 
-Arnold looks for shaders in the ARNOLD_PLUGIN_PATH and for shader templates in MTOA_TEMPLATES_PATH, so these variables need to be set in the Maya.env file. ARNOLD_PLUGIN_PATH should point to the directory where the compiled fileRepeat.dylib/fileRepeat.os resides, and MTOA_TEMPLATES_PATH should point to the textureRepat/templates directory.
+Arnold looks for shaders in the ARNOLD_PLUGIN_PATH and for shader templates in MTOA_TEMPLATES_PATH, so these variables need to be set in the Maya.env file. ARNOLD_PLUGIN_PATH should point to the directory where the compiled fileRepeat.dylib/fileRepeat.os resides, and MTOA_TEMPLATES_PATH should point to the textureRepat/templates directory. Alternatively, you can also move the compiled shader and template tiles to your existing ARNOLD_PLUGIN_PATH and MTOA_TEMPLATES_PATH.
 
 Once these are set, restart Maya, and the fileRepeat node will be in the 'Texture' folder under the Arnold category in the hypershade's 'Create Bin'. You can also create a fileRepeat node by running "shadingNode -asTexture fileRepeat;" in the script editor.
+
+---
+
+### To Use
+
+Enter the path of your texture file in the 'File Name' field. Use the 'Uv Repeat' field to choose the number of repetitions in the U and V direction. Colorspace issues are not yet accounted for, so you may need to plug the output color into a gamma correct node before piping the color into your shader.
 
 ---
 
