@@ -54,7 +54,6 @@ node_initialize
     data->tileTrans = tt;
 
     AiTextureParamsSetDefaults(data->textureparams);
-
     AiNodeSetLocalData(node, data);
 }
  
@@ -71,7 +70,6 @@ node_finish
     delete data->textureparams;
     delete data->tileTrans;
     delete data;
-
 }
  
 shader_evaluate

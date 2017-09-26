@@ -148,9 +148,8 @@ AtColor TileTransformer::calculateColor(AtShaderGlobals* sg)
     sg->v = frac_v;
 
     bool success2;
-    // return AiTextureHandleAccess(sg, m_textureHandle, m_textureParams, &success2).rgb();
-	// return AiColor(1.f, 1.f, 0.0f);
-	return color;
+    return AiTextureHandleAccess(sg, m_textureHandle, m_textureParams, &success2).rgb();
+	// return color;
 }
 
 void TileTransformer::updateRepeatParam(AtPoint uvRepeat)
