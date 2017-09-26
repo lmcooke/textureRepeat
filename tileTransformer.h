@@ -12,6 +12,8 @@ public:
 	~TileTransformer();
 
 	AtColor calculateColor(AtShaderGlobals* sg);
+	AtPoint2 transformUVpoint(AtPoint2 frac_uv, float seedVal);
+	
 	void updateRepeatParam(AtPoint uvRepeat);
 	void updateTexture(AtTextureHandle* textureHandle, 
 						AtTextureParams* textureParams);

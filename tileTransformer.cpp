@@ -56,21 +56,39 @@ AtColor TileTransformer::calculateColor(AtShaderGlobals* sg)
     						(seedColor.g * 0.59f) +
     						(seedColor.b * 0.11f);
 
+    AtPoint2 frac_uv = AtPoint2();
+    frac_uv.x = frac_u;
+    frac_uv.y = frac_v;
+
+   	AtPoint2 transformedUVs = transformUVpoint(frac_uv, greyScaleVal);
+
+    sg->u = transformedUVs.x;
+    sg->v = transformedUVs.y;
+
+    bool success2;
+    return AiTextureHandleAccess(sg, m_textureHandle, m_textureParams, &success2).rgb();
+	// return color;
+}
+
+// given seed value and current uv point, will transform uv point
+AtPoint2 TileTransformer::transformUVpoint(AtPoint2 frac_uv, float seedVal)
+{
+
 	float randVal;
 	// TODO : make this prettier
-    if (greyScaleVal < .125f) {
+    if (seedVal < .125f) {
         randVal = 1;
-    } else if (greyScaleVal < .25f) {
+    } else if (seedVal < .25f) {
         randVal = 2;
-    } else if (greyScaleVal < .375f) {
+    } else if (seedVal < .375f) {
         randVal = 3;
-    } else if (greyScaleVal < .5f) {
+    } else if (seedVal < .5f) {
         randVal = 4;
-    } else if (greyScaleVal < .625f) {
+    } else if (seedVal < .625f) {
         randVal = 5;
-    } else if (greyScaleVal < .75f) {
+    } else if (seedVal < .75f) {
         randVal = 6;
-    } else if (greyScaleVal < .875f) {
+    } else if (seedVal < .875f) {
         randVal = 7;
     } else {
         // randVal = 0;
@@ -86,69 +104,69 @@ AtColor TileTransformer::calculateColor(AtShaderGlobals* sg)
         color = AiColor(0.0f, 0.0f, 1.0f);
 
         // A2
-        float tempU = frac_u;
-        frac_u = frac_v;
-        frac_v = tempU;
+        float tempU = frac_uv.x;
+        frac_uv.x = frac_uv.y;
+        frac_uv.y = tempU;
 
-        frac_v = 1.f - frac_v;
+        frac_uv.y = 1.f - frac_uv.y;
 
     } else if (randVal == 3) {
         color = AiColor(0.0f, 1.0f, 0.0f);
 
         // B1
-        frac_u = 1.f - frac_u;
+        frac_uv.x = 1.f - frac_uv.x;
 
     } else if (randVal == 4) {
         color = AiColor(1.0f, 1.0f, 0.0f);
 
         // B2
-        float tempU = frac_u;
-        frac_u = frac_v;
-        frac_v = tempU;
+        float tempU = frac_uv.x;
+        frac_uv.x = frac_uv.y;
+        frac_uv.y = tempU;
 
-        frac_u = 1.f - frac_u;
-        frac_v = 1.f - frac_v;
+        frac_uv.x = 1.f - frac_uv.x;
+        frac_uv.y = 1.f - frac_uv.y;
 
 
     } else if (randVal == 5) {
         color = AiColor(0.0f, 1.0f, 1.0f);
 
         // C1
-        frac_v = 1.f - frac_v;
+        frac_uv.y = 1.f - frac_uv.y;
 
     } else if (randVal == 6) {
         color = AiColor(1.0f, 0.0f, 1.0f);
 
         // C2
-        float tempU = frac_u;
-        frac_u = frac_v;
-        frac_v = tempU;
+        float tempU = frac_uv.x;
+        frac_uv.x = frac_uv.y;
+        frac_uv.y = tempU;
 
 
     } else if (randVal == 7) {
         color = AiColor(1.0f, 1.0f, 1.0f);
 
         // D1
-        float tempU = frac_u;
-        frac_u = frac_v;
-        frac_v = tempU;
+        float tempU = frac_uv.x;
+        frac_uv.x = frac_uv.y;
+        frac_uv.y = tempU;
 
-        frac_u = 1.f - frac_u;
+        frac_uv.x = 1.f - frac_uv.x;
 
     } else {
         color = AiColor(0.0f, 0.0f, 0.0f);
 
         // D2
-        frac_u = 1.f - frac_u;
-        frac_v = 1.f - frac_v;
+        frac_uv.x = 1.f - frac_uv.x;
+        frac_uv.y = 1.f - frac_uv.y;
     }
 
-    sg->u = frac_u;
-    sg->v = frac_v;
+    AtPoint2 toReturn = AtPoint2();
+    toReturn.x = frac_uv.x;
+    toReturn.y = frac_uv.y;
 
-    bool success2;
-    return AiTextureHandleAccess(sg, m_textureHandle, m_textureParams, &success2).rgb();
-	// return color;
+    return toReturn;
+
 }
 
 void TileTransformer::updateRepeatParam(AtPoint uvRepeat)
