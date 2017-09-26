@@ -80,7 +80,6 @@ AtColor TileTransformer::calculateColor(AtShaderGlobals* sg)
     AtColor color;
     if (randVal == 1) {
         color = AiColor(1.0f, 0.0f, 0.0f);
-
         // A1
 
     } else if (randVal == 2){
