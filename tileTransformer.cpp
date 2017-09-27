@@ -2,6 +2,7 @@
 #define TILETRANSFORMER_CPP
 
 #include <math.h>
+#include <cassert>
 
 #include "tileTransformer.h"
 
@@ -60,7 +61,7 @@ AtColor TileTransformer::calculateColor(AtShaderGlobals* sg)
     frac_uv.x = frac_u;
     frac_uv.y = frac_v;
 
-   	AtPoint2 transformedUVs = transformUVpoint(frac_uv, greyScaleVal);
+   	AtPoint2 transformedUVs = flipUVpoint(frac_uv, greyScaleVal);
 
     sg->u = transformedUVs.x;
     sg->v = transformedUVs.y;
@@ -71,31 +72,13 @@ AtColor TileTransformer::calculateColor(AtShaderGlobals* sg)
 }
 
 // given seed value and current uv point, will transform uv point
-AtPoint2 TileTransformer::transformUVpoint(AtPoint2 frac_uv, float seedVal)
+AtPoint2 TileTransformer::flipUVpoint(AtPoint2 frac_uv, float seedVal)
 {
 
-	float randVal;
-	// TODO : make this prettier
-    if (seedVal < .125f) {
-        randVal = 1;
-    } else if (seedVal < .25f) {
-        randVal = 2;
-    } else if (seedVal < .375f) {
-        randVal = 3;
-    } else if (seedVal < .5f) {
-        randVal = 4;
-    } else if (seedVal < .625f) {
-        randVal = 5;
-    } else if (seedVal < .75f) {
-        randVal = 6;
-    } else if (seedVal < .875f) {
-        randVal = 7;
-    } else {
-        // randVal = 0;
-    }
+    float randVal = getRandFromIncrement(8.f, seedVal);
 
     // ugly, i know
-    AtColor color;
+    AtColor color = AiColor(0.0f, 0.0f, 0.0f);
     if (randVal == 1) {
         color = AiColor(1.0f, 0.0f, 0.0f);
         // A1
@@ -167,6 +150,28 @@ AtPoint2 TileTransformer::transformUVpoint(AtPoint2 frac_uv, float seedVal)
 
     return toReturn;
 
+}
+
+AtPoint2 TileTransformer::flipRotateUVpoint(AtPoint2 frac_uv, float seedVal)
+{
+
+}
+
+float TileTransformer::getRandFromIncrement(float incrNum, float seed)
+{
+	float incr = 1.0f/incrNum;
+
+	int incrNumInt = static_cast<int>(incrNum);
+	int randVal = incrNum;
+	for (int i = 1; i < (incrNumInt + 1); i++) {
+		float iFloat = static_cast<float>(i);
+		if (seed < (iFloat / incrNum)) {
+			randVal = i;
+			break;
+		}
+	}
+
+	return randVal;
 }
 
 void TileTransformer::updateRepeatParam(AtPoint uvRepeat)
