@@ -15,3 +15,12 @@
 
     [attr fileName]
     	default           	STRING  "empty"
+
+    [attr flipTiles]
+        default             BOOL  False
+
+    [attr offsetTiles]
+        default             BOOL  False
+
+    [attr rotateTiles]
+        default             BOOL  False

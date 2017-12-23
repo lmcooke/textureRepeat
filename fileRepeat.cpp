@@ -22,7 +22,10 @@ enum fileRepeatParams
 { 
     p_color,
     p_uv_repeat,
-    p_fileName 
+    p_fileName,
+    p_flipTiles,
+    p_offsetTiles,
+    p_rotateTiles 
 };
  
 };
@@ -32,6 +35,9 @@ node_parameters
     AiParameterRGB("constantColor", 0.7f, 0.7f, 0.7f);
     AiParameterPNT2("uv_repeat", 1.0f, 1.0f);
     AiParameterStr("fileName", "");
+    AiParameterBOOL("flipTiles", 0);
+    AiParameterBOOL("offsetTiles", 0);
+    AiParameterBOOL("rotateTiles", 0);
 }
 
 struct ShaderData 
@@ -76,14 +82,19 @@ shader_evaluate
 {
     AtColor color = AiShaderEvalParamRGB(p_color);
     AtPoint uvPt = AiShaderEvalParamVec(p_uv_repeat);
+    bool flipTiles = AiShaderEvalParamBool(p_flipTiles);
+    bool offsetTiles = AiShaderEvalParamBool(p_offsetTiles);
+    bool rotateTiles = AiShaderEvalParamBool(p_rotateTiles);
 
     ShaderData *data = (ShaderData*)AiNodeGetLocalData(node);
 
-    // set most recent UV parameters
-    data->tileTrans->updateRepeatParam(uvPt);
-    data->tileTrans->updateTexture(data->texturehandle, data->textureparams);
+    // set most recent node parameters
+    data->tileTrans->update(uvPt, data->texturehandle,
+                            data->textureparams,
+                            flipTiles, rotateTiles, offsetTiles);
+    
 
-    sg->out.RGB = sg->out.RGB = data->tileTrans->calculateColor(sg);;
+    sg->out.RGB = data->tileTrans->calculateColor(sg);
 }
  
 node_loader

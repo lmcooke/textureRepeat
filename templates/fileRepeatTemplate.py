@@ -21,6 +21,9 @@ class AEfileRepeatTemplate(ShaderAETemplate):
 
 
         self.addControl("fileName", label="File Name")
+		self.addControl("flipTiles", label="Flip Tiles")
+		self.addControl("offsetTiles", label="Offset Tiles")
+		self.addControl("rotateTiles", label="Rotate Tiles")
         self.endLayout()
  
         pm.mel.AEdependNodeTemplate(self.nodeName)
