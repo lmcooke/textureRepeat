@@ -24,3 +24,11 @@
 
     [attr rotateTiles]
         default             BOOL  False
+
+    [attr blurEdges]
+        default             BOOL False
+
+    [attr blurRadius]
+        default             FLOAT 2.0
+        min                 FLOAT 0.0
+        max                 FLOAT 20.0

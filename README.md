@@ -42,7 +42,7 @@ Once these are set, restart Maya, and the fileRepeat node will be in the 'Textur
 
 ### To Use
 
-Enter the path of your texture file in the 'File Name' field. Use the 'Uv Repeat' field to choose the number of repetitions in the U and V direction. Colorspace issues are not yet accounted for, so you may need to plug the output color into a gamma correct node before piping the color into your shader.
+Enter the path of your texture file in the 'File Name' field. Use the 'Uv Repeat' field to choose the number of repetitions in the U and V direction. Check the flip, rotate, and offset check boxes to control how your tiles are scattered across UV space. If you want to help eliminate seams between different tiles, you can choose to blur the tile edges. The blur radius controls how extreme the blur is, where 0 is no blur. The blur radius will only have an effect if blur is checked on. Colorspace issues are not yet accounted for, so you may need to plug the output color into a gamma correct node before piping the color into your shader.
 
 ---
 

@@ -25,7 +25,9 @@ enum fileRepeatParams
     p_fileName,
     p_flipTiles,
     p_offsetTiles,
-    p_rotateTiles 
+    p_rotateTiles,
+    p_blurEdges,
+    p_blurRadius 
 };
  
 };
@@ -38,6 +40,8 @@ node_parameters
     AiParameterBOOL("flipTiles", 0);
     AiParameterBOOL("offsetTiles", 0);
     AiParameterBOOL("rotateTiles", 0);
+    AiParameterBOOL("blurEdges", 0);
+    AiParameterFLT("blurRadius", 2.0f);
 }
 
 struct ShaderData 
