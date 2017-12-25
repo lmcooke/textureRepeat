@@ -6,6 +6,8 @@
 
 #include "tileTransformer.h"
 
+#define PI 3.1415
+
 
 
 
@@ -190,13 +192,10 @@ AtPoint2 TileTransformer::flipUVpoint(AtPoint2 frac_uv, float seedVal)
 
 AtPoint2 TileTransformer::rotateUVpoint(AtPoint2 frac_uv, float seedVal)
 {
-    // TODO : define this at top of class
-    float piF = 3.1415;
-
     // get rand angle 
     float angleVariation = 23.f; // this will be better if prime
     float randVal = getRandFromIncrement(angleVariation, seedVal);
-    float randAngle = (2.f * piF) / randVal;
+    float randAngle = (2.f * PI) / randVal;
 
     // shift pt to centered in center of tile
     float centeredU = frac_uv.x + .5f;

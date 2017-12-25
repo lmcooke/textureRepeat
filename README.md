@@ -1,6 +1,10 @@
 # Texture Repeat File Node
 
-A shading node for Arnold that allows the user to repeat non-tileable textures without obviously visible repetition. This is inspired by http://www.iquilezles.org/www/articles/texturerepetition/texturerepetition.htm
+A shading node for Arnold that allows the user to repeat non-tileable textures without obviously visible repetition. This is inspired by:
+
+ http://www.iquilezles.org/www/articles/texturerepetition/texturerepetition.htm
+
+http://graphics.cs.cmu.edu/people/efros/research/quilting/quilting.pdf
 
 WIP project.
 
@@ -14,29 +18,29 @@ In order to compile this project, use the following commands. This assumes the e
 
 ##### OSX
 
-g++ -I<arnold_SDKpath>/include -L<arnold_SDKpath>bin -lai -dynamiclib fileRepeat.cpp -o fileRepeat.dylib
+g++ -I<arnold_SDKpath>/include -L<arnold_SDKpath>bin -lai -dynamiclib textureRepeat.cpp -o textureRepeat.dylib
 
 or 
 
-gcc -I<arnold_SDKpath>/include -L<arnold_SDKpath>bin -lai -dynamiclib fileRepeat.cpp -o fileRepeat.dylib -lstdc++
+gcc -I<arnold_SDKpath>/include -L<arnold_SDKpath>bin -lai -dynamiclib textureRepeat.cpp -o textureRepeat.dylib -lstdc++
 
 ##### Linux (not tested)
 
-g++ -o fileRepeat.os -c -fPIC -D_LINUX -I<arnold_SDKpath>/include fileRepeat.cpp
+g++ -o textureRepeat.os -c -fPIC -D_LINUX -I<arnold_SDKpath>/include textureRepeat.cpp
 
-g++ -o fileRepeat.so -shared fileRepeat.os -L<arnold_SDKpath>/bin -lai
+g++ -o textureRepeat.so -shared textureRepeat.os -L<arnold_SDKpath>/bin -lai
 
 ##### Windows (not tested)
 
-cl /LD /I <arnold_SDKpath>\include /EHsc fileRepeat.cpp /link /LIBPATH:<arnold_SDKpath>\lib ai.lib
+cl /LD /I <arnold_SDKpath>\include /EHsc textureRepeat.cpp /link /LIBPATH:<arnold_SDKpath>\lib ai.lib
 
 ---
 
 ### To Access in Maya
 
-Arnold looks for shaders in the ARNOLD_PLUGIN_PATH and for shader templates in MTOA_TEMPLATES_PATH, so these variables need to be set in the Maya.env file. ARNOLD_PLUGIN_PATH should point to the directory where the compiled fileRepeat.dylib/fileRepeat.os resides, and MTOA_TEMPLATES_PATH should point to the textureRepat/templates directory. Alternatively, you can also move the compiled shader and template tiles to your existing ARNOLD_PLUGIN_PATH and MTOA_TEMPLATES_PATH.
+Arnold looks for shaders in the ARNOLD_PLUGIN_PATH and for shader templates in MTOA_TEMPLATES_PATH, so these variables need to be set in the Maya.env file. ARNOLD_PLUGIN_PATH should point to the directory where the compiled textureRepeat.dylib/textureRepeat.os resides, and MTOA_TEMPLATES_PATH should point to the textureRepat/templates directory. Alternatively, you can also move the compiled shader and template tiles to your existing ARNOLD_PLUGIN_PATH and MTOA_TEMPLATES_PATH.
 
-Once these are set, restart Maya, and the fileRepeat node will be in the 'Texture' folder under the Arnold category in the hypershade's 'Create Bin'. You can also create a fileRepeat node by running "shadingNode -asTexture fileRepeat;" in the script editor.
+Once these are set, restart Maya, and the textureRepeat node will be in the 'Texture' folder under the Arnold category in the hypershade's 'Create Bin'. You can also create a textureRepeat node by running "shadingNode -asTexture textureRepeat;" in the script editor.
 
 ---
 
@@ -53,10 +57,10 @@ Maya Testing commands:
 shadingNode -asShader lambert;
 sets -renderable true -noSurfaceShader true -empty -name lambert2SG;
 connectAttr -f lambert2.outColor lambert2SG.surfaceShader;
-shadingNode -asTexture fileRepeat;
-setAttr "fileRepeat1.uvRepeatX" 10;
-setAttr "fileRepeat1.uvRepeatY" 10;
-connectAttr -f fileRepeat1.outColor lambert2.color;
+shadingNode -asTexture textureRepeat;
+setAttr "textureRepeat1.uvRepeatX" 10;
+setAttr "textureRepeat1.uvRepeatY" 10;
+connectAttr -f textureRepeat1.outColor lambert2.color;
 polyPlane -w 5 -h 5 -sx 10 -sy 10 -ax 0 1 0 -cuv 2 -ch 1;
 sets -e -forceElement lambert2SG;
 

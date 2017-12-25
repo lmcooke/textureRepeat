@@ -11,14 +11,14 @@
 
 #include "tileTransformer.cpp"
 
-AI_SHADER_NODE_EXPORT_METHODS(fileRepeatMethods);
+AI_SHADER_NODE_EXPORT_METHODS(textureRepeatMethods);
  
 namespace
 {
  
 
 
-enum fileRepeatParams 
+enum textureRepeatParams 
 { 
     p_color,
     p_uv_repeat,
@@ -89,6 +89,7 @@ shader_evaluate
     bool flipTiles = AiShaderEvalParamBool(p_flipTiles);
     bool offsetTiles = AiShaderEvalParamBool(p_offsetTiles);
     bool rotateTiles = AiShaderEvalParamBool(p_rotateTiles);
+    bool blurEdges = AiShaderEvalParamFlt(p_blurEdges);
 
     ShaderData *data = (ShaderData*)AiNodeGetLocalData(node);
 
@@ -106,9 +107,9 @@ node_loader
     if (i > 0)
         return false;
  
-    node->methods        = fileRepeatMethods;
+    node->methods        = textureRepeatMethods;
     node->output_type    = AI_TYPE_RGB;
-    node->name           = "fileRepeat";
+    node->name           = "textureRepeat";
     node->node_type      = AI_NODE_SHADER;
     strcpy(node->version, AI_VERSION);
     return true;

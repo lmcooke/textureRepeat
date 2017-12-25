@@ -37,6 +37,7 @@ public:
 	bool m_flipTiles;
 	bool m_rotateTiles;
 	bool m_offsetTiles;
+	bool m_useBlur;
 
 private:
 

@@ -1,7 +1,7 @@
 # fileRepeat                    0x00070000
  
-[node fileRepeat]
-    maya.name               STRING  "fileRepeat"
+[node textureRepeat]
+    maya.name               STRING  "textureRepeat"
     maya.id                 INT      0x01891258
     maya.classification     STRING  "texture"
     maya.output_name        STRING  "outColor"
