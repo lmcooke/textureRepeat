@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "tileTransformer.cpp"
+#include "textureRepeatController.cpp"
 
 AI_SHADER_NODE_EXPORT_METHODS(textureRepeatMethods);
  

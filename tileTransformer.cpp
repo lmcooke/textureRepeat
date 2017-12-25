@@ -92,12 +92,8 @@ AtColor TileTransformer::calculateColor(AtShaderGlobals* sg)
     sg->u = frac_uv.x;
     sg->v = frac_uv.y;
 
-    // TODO : blur edges?
 
     bool success2;
-    // return AiTextureHandleAccess(sg, m_textureHandle, 
-    //                             m_textureParams, 
-    //                             &success2).rgb();
 
     AtColor sampledTexture = AiTextureHandleAccess(sg, m_textureHandle,
                                             m_textureParams,
