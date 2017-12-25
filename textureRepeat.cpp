@@ -50,6 +50,7 @@ struct ShaderData
     AtTextureHandle* texturehandle;
     AtTextureParams *textureparams;
     TileTransformer *tileTrans;
+    TextureRepeatController *tpControl;
 };
  
 node_initialize
@@ -59,10 +60,14 @@ node_initialize
     tt = new TileTransformer();
     tt->testFunction();
 
+    TextureRepeatController *tpc;
+    tpc = new TextureRepeatController();
+
     std::string texname = std::string(params[p_fileName].STR);
     data->texturehandle = AiTextureHandleCreate(texname.c_str());
     data->textureparams = new AtTextureParams;
     data->tileTrans = tt;
+    data->tpControl = tpc;
 
     AiTextureParamsSetDefaults(data->textureparams);
     AiNodeSetLocalData(node, data);
