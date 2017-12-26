@@ -56,7 +56,7 @@ TextureRepeatController::TextureRepeatController(AtPoint uvRepeat,
 
 TextureRepeatController::~TextureRepeatController()
 {
-
+	delete m_tileTransformer;
 }
 
 
@@ -88,6 +88,11 @@ void TextureRepeatController::update(AtPoint uvRepeat,
 							m_flipTiles,
 							m_rotateTiles,
 							m_offsetTiles);
+}
+
+AtColor TextureRepeatController::calculateColor(AtShaderGlobals* sg)
+{
+	return m_tileTransformer->calculateColor(sg);
 }
 
 AtColor TextureRepeatController::testFunction()

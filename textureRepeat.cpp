@@ -49,16 +49,12 @@ struct ShaderData
 {
     AtTextureHandle* texturehandle;
     AtTextureParams *textureparams;
-    TileTransformer *tileTrans;
-    TextureRepeatController *tpControl;
+    TextureRepeatController *textureControl;
 };
  
 node_initialize
 {
     ShaderData *data = new ShaderData;
-    TileTransformer *tt;
-    tt = new TileTransformer();
-    tt->testFunction();
 
     TextureRepeatController *tpc;
     tpc = new TextureRepeatController();
@@ -66,8 +62,7 @@ node_initialize
     std::string texname = std::string(params[p_fileName].STR);
     data->texturehandle = AiTextureHandleCreate(texname.c_str());
     data->textureparams = new AtTextureParams;
-    data->tileTrans = tt;
-    data->tpControl = tpc;
+    data->textureControl = tpc;
 
     AiTextureParamsSetDefaults(data->textureparams);
     AiNodeSetLocalData(node, data);
@@ -84,7 +79,7 @@ node_finish
     // clean up
     AiTextureHandleDestroy(data->texturehandle);
     delete data->textureparams;
-    delete data->tileTrans;
+    delete data->textureControl;
     delete data;
 }
  
@@ -101,18 +96,13 @@ shader_evaluate
     ShaderData *data = (ShaderData*)AiNodeGetLocalData(node);
 
     // set most recent node parameters
-    data->tileTrans->update(uvPt, data->texturehandle,
-                            data->textureparams,
-                            flipTiles, rotateTiles, offsetTiles);
-    
-    data->tpControl->update(uvPt, data->texturehandle,
+    data->textureControl->update(uvPt, data->texturehandle,
                             data->textureparams,
                             flipTiles, rotateTiles, offsetTiles,
                             blurEdges, blurRadius, false, 0.0f);
 
 
-    sg->out.RGB = data->tpControl->testFunction();
-    // sg->out.RGB = data->tileTrans->calculateColor(sg);
+    sg->out.RGB = data->textureControl->calculateColor(sg);
 
 }
  

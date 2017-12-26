@@ -32,6 +32,8 @@ public:
 				bool quiltEdges,
 				float quiltWidth);
 
+	AtColor calculateColor(AtShaderGlobals* sg);
+
 	AtColor testFunction();
 
 
