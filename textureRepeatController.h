@@ -34,6 +34,8 @@ public:
 
 	AtColor calculateColor(AtShaderGlobals* sg);
 
+	AtColor blurEdges(AtShaderGlobals* sg);
+
 	AtColor testFunction();
 
 

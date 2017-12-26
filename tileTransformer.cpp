@@ -46,7 +46,10 @@ TileTransformer::~TileTransformer()
 
 AtColor TileTransformer::calculateColor(AtShaderGlobals* sg)
 {
-	// get UVs with repeating value
+	float origU = sg->u;
+    float origV = sg->v;
+
+    // get UVs with repeating value
 	float repeatingUV_u = sg->u * m_uvRepeat.x;
 	float repeatingUV_v = sg->v * m_uvRepeat.y;
 
@@ -106,6 +109,9 @@ AtColor TileTransformer::calculateColor(AtShaderGlobals* sg)
                                             m_textureParams,
                                             &success2).rgb();
 
+    // reset sg uv coords
+    sg->u = origU;
+    sg->v = origV;
 
     return sampledTexture;
 
