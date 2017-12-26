@@ -95,7 +95,8 @@ shader_evaluate
     bool flipTiles = AiShaderEvalParamBool(p_flipTiles);
     bool offsetTiles = AiShaderEvalParamBool(p_offsetTiles);
     bool rotateTiles = AiShaderEvalParamBool(p_rotateTiles);
-    bool blurEdges = AiShaderEvalParamFlt(p_blurEdges);
+    bool blurEdges = AiShaderEvalParamBool(p_blurEdges);
+    float blurRadius = AiShaderEvalParamFlt(p_blurRadius);
 
     ShaderData *data = (ShaderData*)AiNodeGetLocalData(node);
 
@@ -104,8 +105,15 @@ shader_evaluate
                             data->textureparams,
                             flipTiles, rotateTiles, offsetTiles);
     
+    data->tpControl->update(uvPt, data->texturehandle,
+                            data->textureparams,
+                            flipTiles, rotateTiles, offsetTiles,
+                            blurEdges, blurRadius, false, 0.0f);
 
-    sg->out.RGB = data->tileTrans->calculateColor(sg);
+
+    sg->out.RGB = data->tpControl->testFunction();
+    // sg->out.RGB = data->tileTrans->calculateColor(sg);
+
 }
  
 node_loader

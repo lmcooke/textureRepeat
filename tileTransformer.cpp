@@ -24,12 +24,19 @@ TileTransformer::TileTransformer() :
 }
 
 // TODO : make constructor include texture stuff also
-TileTransformer::TileTransformer(AtPoint uvRepeat) :
-	m_uvRepeat(uvRepeat),
-	m_textureHandle(),
-	m_textureParams()
+TileTransformer::TileTransformer(AtPoint uvRepeat,
+                                AtTextureHandle* textureHandle,
+                                AtTextureParams* textureParams,
+                                bool flipTiles,
+                                bool rotateTiles,
+                                bool offsetTiles)
 {
-
+    m_uvRepeat = uvRepeat;
+    m_textureHandle = textureHandle;
+    m_textureParams = textureParams;
+    m_flipTiles = flipTiles;
+    m_rotateTiles = rotateTiles;
+    m_offsetTiles = offsetTiles;
 }
 
 TileTransformer::~TileTransformer()
@@ -282,7 +289,7 @@ void TileTransformer::update(AtPoint uvRepeat,
 
 AtColor TileTransformer::testFunction()
 {
-	if (m_uvRepeat.x == 10) {
+	if (m_uvRepeat.x == 10.0f) {
 		return AiColor(0.0f, 0.0f, 1.0f);
 	} else {
 		return AiColor(0.0f, 1.0f, 0.0f); 

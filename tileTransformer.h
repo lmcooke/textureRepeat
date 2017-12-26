@@ -8,7 +8,12 @@ class TileTransformer
 
 public:
 	TileTransformer();
-	TileTransformer(AtPoint uvRepeat);
+	TileTransformer(AtPoint uvRepeat,
+					AtTextureHandle* textureHandle,
+					AtTextureParams* textureParams,
+					bool flipTiles,
+					bool rotateTiles,
+					bool offsetTiles);
 	~TileTransformer();
 
 	AtColor calculateColor(AtShaderGlobals* sg);
