@@ -21,20 +21,23 @@ public:
 							float quiltWidth);
 	~TextureRepeatController();
 
-	void update(AtPoint uvRepeat,
-				AtTextureHandle* textureHandle,
-				AtTextureParams* textureParams,
-				bool flipTiles,
-				bool rotateTiles,
-				bool offsetTiles,
-				bool blurEdges,
-				float blurRadius,
-				bool quiltEdges,
-				float quiltWidth);
-
 	AtColor calculateColor(AtShaderGlobals* sg);
 
 	AtColor blurEdges(AtShaderGlobals* sg);
+	AtColor quiltEdges(AtShaderGlobals* sg);
+
+	AtPoint2 getUVposition(AtShaderGlobals* sg);
+
+	void update(AtPoint uvRepeat,
+			AtTextureHandle* textureHandle,
+			AtTextureParams* textureParams,
+			bool flipTiles,
+			bool rotateTiles,
+			bool offsetTiles,
+			bool blurEdges,
+			float blurRadius,
+			bool quiltEdges,
+			float quiltWidth);
 
 	AtColor testFunction();
 

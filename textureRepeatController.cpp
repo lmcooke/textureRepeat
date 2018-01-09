@@ -64,14 +64,12 @@ AtColor TextureRepeatController::calculateColor(AtShaderGlobals* sg)
 {
 	
 	if (m_blurEdges) {
-		// TODO
 
 		return blurEdges(sg);
-		// return AiColor(1.0f, 0.0f, 0.0f);
 
 	} else if (m_quiltEdges) {
-		// TODO
-		return AiColor(0.0f, 1.0f, 0.0f);
+
+		return quiltEdges(sg);
 
 	} else {
 		// no edge improvement settings 
@@ -88,21 +86,14 @@ AtColor TextureRepeatController::blurEdges(AtShaderGlobals* sg)
 	float origU = sg->u;
     float origV = sg->v;
 
-	// get UVs with repeating value
-	float repeatingUV_u = sg->u * m_uvRepeat.x;
-	float repeatingUV_v = sg->v * m_uvRepeat.y;
+    AtPoint2 fracUV = getUVposition(sg);
 
-	// get tile
-	float tile_u = static_cast<float>(floor(repeatingUV_u));
-	float tile_v = static_cast<float>(floor(repeatingUV_v));
-
-	// get current uv fraction value
-	float frac_u = repeatingUV_u - tile_u;
-	float frac_v = repeatingUV_v - tile_v;
+	float frac_u = fracUV.x;
+	float frac_v = fracUV.y;
 
 	AtColor toReturn = m_tileTransformer->calculateColor(sg);
 
-	// left
+	// u direction
 	if (frac_u < m_blurRadius) {
 
 		sg->u = sg->u - frac_u;
@@ -117,7 +108,7 @@ AtColor TextureRepeatController::blurEdges(AtShaderGlobals* sg)
 
 	}
 
-	// top
+	// v direction
 	if (frac_v < m_blurRadius) {
 
 		sg->v = sg->v - frac_v;
@@ -133,6 +124,64 @@ AtColor TextureRepeatController::blurEdges(AtShaderGlobals* sg)
 	}
 
 	return toReturn;
+}
+
+AtColor TextureRepeatController::quiltEdges(AtShaderGlobals* sg)
+{
+	float origU = sg->u;
+    float origV = sg->v;
+
+    AtPoint2 fracUV = getUVposition(sg);
+
+	// TODO : set resolution based on texture
+	float stepSize = 0.01f;
+
+	AtColor toReturn = AiColor(0.0f,0.0f,1.0f);
+
+	// check to see if quilting is necessary
+	// left edge
+	if (fracUV.x < m_quiltWidth) {
+		toReturn = AiColor(0.0f,1.0f,0.0f);
+
+		// build matrix
+		int width = static_cast<int>(stepSize / m_quiltWidth);
+		int height = static_cast<int>(stepSize / 1.f);
+
+		// TODO : initialize quilt
+		// AtColor leftQuilt[][];
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+
+				
+			}
+		}
+
+
+	}
+	if (fracUV.y < m_quiltWidth) {
+		toReturn = AiColor(1.0f,0.0f,0.0f);
+	}
+
+	return toReturn;
+}
+
+AtPoint2 TextureRepeatController::getUVposition(AtShaderGlobals* sg)
+{
+	AtPoint2 uvPos = AtPoint2();
+
+		// get UVs with repeating value
+	float repeatingUV_u = sg->u * m_uvRepeat.x;
+	float repeatingUV_v = sg->v * m_uvRepeat.y;
+
+	// get tile
+	float tile_u = static_cast<float>(floor(repeatingUV_u));
+	float tile_v = static_cast<float>(floor(repeatingUV_v));
+
+	// get current uv fraction value
+	uvPos.x = repeatingUV_u - tile_u;
+	uvPos.y = repeatingUV_v - tile_v;
+
+	return uvPos;
 }
 
 

@@ -28,7 +28,9 @@ enum textureRepeatParams
     p_offsetTiles,
     p_rotateTiles,
     p_blurEdges,
-    p_blurRadius 
+    p_blurRadius,
+    p_quiltEdges,
+    p_quiltWidth 
 };
  
 };
@@ -42,7 +44,9 @@ node_parameters
     AiParameterBOOL("offsetTiles", 0);
     AiParameterBOOL("rotateTiles", 0);
     AiParameterBOOL("blurEdges", 0);
-    AiParameterFLT("blurRadius", 2.0f);
+    AiParameterFLT("blurRadius", 0.1f);
+    AiParameterBOOL("quiltEdges", 0);
+    AiParameterFLT("quiltWidth", 0.1f);
 }
 
 struct ShaderData 
@@ -92,6 +96,8 @@ shader_evaluate
     bool rotateTiles = AiShaderEvalParamBool(p_rotateTiles);
     bool blurEdges = AiShaderEvalParamBool(p_blurEdges);
     float blurRadius = AiShaderEvalParamFlt(p_blurRadius);
+    bool quiltEdges = AiShaderEvalParamBool(p_quiltEdges);
+    float quiltWidth = AiShaderEvalParamFlt(p_quiltWidth);
 
     ShaderData *data = (ShaderData*)AiNodeGetLocalData(node);
 
@@ -99,7 +105,7 @@ shader_evaluate
     data->textureControl->update(uvPt, data->texturehandle,
                             data->textureparams,
                             flipTiles, rotateTiles, offsetTiles,
-                            blurEdges, blurRadius, false, 0.0f);
+                            blurEdges, blurRadius, quiltEdges, quiltWidth);
 
 
     sg->out.RGB = data->textureControl->calculateColor(sg);
